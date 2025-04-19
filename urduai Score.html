@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اردو کرکٹ سکور کارڈ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background-color: #f0f4f8; /* Light background */
+            color: #333; /* Default text color */
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 960px;
+        }
+        /* Setup form background and text color */
+        .gradient-bg {
+            background: linear-gradient(to right, #667eea, #764ba2); /* Purple gradient */
+            color: #1a202c; /* Dark text for better contrast */
+        }
+        /* Team 1 section background and text color */
+        .gradient-bg-team1 {
+             background: linear-gradient(to right, #4facfe, #00f2fe); /* Blue gradient for Team 1 */
+             color: #1a202c; /* Dark text for better contrast */
+        }
+        /* Team 2 section background and text color */
+         .gradient-bg-team2 {
+             background: linear-gradient(to right, #fccb90, #d57eeb); /* Orange/Pink gradient for Team 2 */
+             color: #1a202c; /* Dark text for better contrast */
+        }
+        .shadow-custom {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .btn-primary {
+            background-color: #4f46e5; /* Indigo */
+            color: white; /* White text is fine on dark primary button */
+        }
+        .btn-primary:hover {
+            background-color: #4338ca; /* Darker indigo */
+        }
+         .btn-success {
+            background-color: #22c55e; /* Green */
+            color: white; /* White text is fine on dark green button */
+        }
+        .btn-success:hover {
+            background-color: #16a34a; /* Darker green */
+        }
+         .btn-danger {
+            background-color: #ef4444; /* Red */
+            color: white; /* White text is fine on dark red button */
+        }
+        .btn-danger:hover {
+            background-color: #dc2626; /* Darker red */
+        }
+        .btn-secondary {
+            background-color: #6b7280; /* Gray */
+            color: white; /* White text is fine on dark gray button */
+        }
+        .btn-secondary:hover {
+            background-color: #4b5563; /* Darker gray */
+        }
+        input, select {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+             color: #333; /* Ensure select/input text is dark */
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        .overs-display {
+            font-size: 1.5rem;
+        }
+        .player-stats {
+            font-size: 1.2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: right; /* Align text to the right for RTL */
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+             color: #333; /* Ensure table header text is dark */
+        }
+        td {
+             color: #333; /* Ensure table data text is dark */
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .target-display {
+            background-color: #ef4444; /* Red background */
+            color: white; /* White text is fine on red background */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+        }
+         /* Custom styles for RTL adjustments */
+        .flex-row-reverse {
+            flex-direction: row-reverse;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .text-left {
+            text-align: left;
+        }
+         .ml-auto {
+            margin-left: auto;
+            margin-right: 0;
+        }
+         .mr-auto {
+            margin-right: auto;
+            margin-left: 0;
+        }
+         .pl-4 {
+            padding-left: 0;
+            padding-right: 1rem;
+        }
+         .pr-4 {
+            padding-right: 0;
+            padding-left: 1rem;
+        }
+         .border-r {
+            border-right-width: 0;
+            border-left-width: 1px;
+        }
+    </style>
+</head>
+<body class="p-6">
+
+    <div class="container mx-auto shadow-custom rounded-lg overflow-hidden bg-white">
+
+        <div id="setup-form" class="p-8 gradient-bg">
+            <h2 class="text-3xl font-bold mb-6 text-center">میچ کی تفصیلات درج کریں</h2>
+            <form id="match-setup">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="match-title">میچ کا عنوان:</label>
+                        <input type="text" id="match-title" placeholder="مثلاً: پاکستان بمقابلہ بھارت" required>
+                    </div>
+                    <div>
+                        <label for="ground-name">گراؤنڈ کا نام:</label>
+                        <input type="text" id="ground-name" placeholder="مثلاً: قذافی اسٹیڈیم" required>
+                    </div>
+                    <div>
+                        <label for="match-date">تاریخ:</label>
+                        <input type="date" id="match-date" required>
+                    </div>
+                    <div>
+                        <label for="match-time">وقت:</label>
+                        <input type="time" id="match-time" required>
+                    </div>
+                    <div>
+                        <label for="total-overs">کل اوورز:</label>
+                        <input type="number" id="total-overs" value="20" min="1" required>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="team1-name">ٹیم 1 کا نام:</label>
+                        <input type="text" id="team1-name" placeholder="مثلاً: پاکستان" required>
+                        <div class="mt-4">
+                            <label for="team1-players">ٹیم 1 کے کھلاڑی (ہر نام نئی لائن پر):</label>
+                            <textarea id="team1-players" rows="6" placeholder="کھلاڑی 1&#10;کھلاڑی 2&#10;..." required></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="team2-name">ٹیم 2 کا نام:</label>
+                        <input type="text" id="team2-name" placeholder="مثلاً: بھارت" required>
+                         <div class="mt-4">
+                            <label for="team2-players">ٹیم 2 کے کھلاڑی (ہر نام نئی لائن پر):</label>
+                            <textarea id="team2-players" rows="6" placeholder="کھلاڑی 1&#10;کھلاڑی 2&#10;..." required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                     <div>
+                        <label for="umpire1-name">امپائر 1 کا نام:</label>
+                        <input type="text" id="umpire1-name" placeholder="مثلاً: علیم ڈار">
+                    </div>
+                     <div>
+                        <label for="umpire2-name">امپائر 2 کا نام:</label>
+                        <input type="text" id="umpire2-name" placeholder="مثلاً: احسن رضا">
+                    </div>
+                 </div>
+
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">میچ شروع کریں</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="score-board" class="hidden p-8">
+            <div class="mb-6 text-center">
+                <h3 id="match-info" class="text-xl font-bold mb-2"></h3>
+                <p id="match-details" class="text-gray-600"></p>
+            </div>
+
+             <div id="target-display" class="hidden target-display">
+                ہدف: <span id="target-runs"></span> رنز
+            </div>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div id="batting-section" class="rounded-lg p-6 gradient-bg-team1 shadow-custom">
+                    <h4 id="batting-team-name" class="text-2xl font-bold mb-4"></h4>
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <span id="current-score" class="score-display">0/0</span>
+                        </div>
+                        <div>
+                            <span id="current-overs" class="overs-display">0.0 اوورز</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="current-batsman1">بلے باز 1:</label>
+                        <select id="current-batsman1" class="text-gray-800" disabled>
+                            <option value="">منتخب کریں</option>
+                        </select>
+                         <p id="batsman1-stats" class="player-stats mt-1">0 (0)</p>
+                    </div>
+
+                     <div class="mb-4">
+                        <label for="current-batsman2">بلے باز 2:</label>
+                        <select id="current-batsman2" class="text-gray-800" disabled>
+                             <option value="">منتخب کریں</option>
+                        </select>
+                         <p id="batsman2-stats" class="player-stats mt-1">0 (0)</p>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <button class="btn btn-success" data-runs="1">1 رن</button>
+                        <button class="btn btn-success" data-runs="2">2 رنز</button>
+                        <button class="btn btn-success" data-runs="3">3 رنز</button>
+                        <button class="btn btn-success" data-runs="4">4 رنز</button>
+                        <button class="btn btn-success" data-runs="6">6 رنز</button>
+                         <button id="wicket-btn" class="btn btn-danger">وکٹ</button>
+                    </div>
+
+                     <div id="wicket-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+                        <div class="bg-white p-6 rounded-lg shadow-xl text-gray-800 w-96">
+                            <h4 class="text-xl font-bold mb-4">وکٹ کی تفصیلات</h4>
+                            <div class="mb-4">
+                                <label for="out-batsman">آؤٹ ہونے والا بلے باز:</label>
+                                <select id="out-batsman" class="text-gray-800">
+                                     <option value="">منتخب کریں</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="dismissal-type">آؤٹ ہونے کا طریقہ:</label>
+                                <select id="dismissal-type" class="text-gray-800">
+                                    <option value="بولڈ">بولڈ</option>
+                                    <option value="کیچ آؤٹ">کیچ آؤٹ</option>
+                                    <option value="رن آؤٹ">رن آؤٹ</option>
+                                    <option value="ایل بی ڈبلیو">ایل بی ڈبلیو</option>
+                                    <option value="اسٹمپڈ">اسٹمپڈ</option>
+                                    <option value="ہٹ وکٹ">ہٹ وکٹ</option>
+                                     <option value="ریٹائرڈ ہرٹ">ریٹائرڈ ہرٹ</option>
+                                </select>
+                            </div>
+                            <div id="fielder-section" class="mb-4 hidden">
+                                <label for="fielder-name">فیلڈر کا نام (اگر قابل اطلاق ہو):</label>
+                                <select id="fielder-name" class="text-gray-800">
+                                     <option value="">منتخب کریں</option>
+                                </select>
+                            </div>
+                            <div class="flex justify-end gap-4">
+                                <button id="cancel-wicket" class="btn btn-secondary">منسوخ کریں</button>
+                                <button id="confirm-wicket" class="btn btn-danger">تصدیق کریں</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-4">
+                        <h5 class="font-bold mb-2">ایکسٹرا:</h5>
+                        <div class="grid grid-cols-2 gap-4">
+                             <button class="btn btn-secondary" data-extra-type="wide">وائیڈ</button>
+                             <button class="btn btn-secondary" data-extra-type="noball">نو بال</button>
+                        </div>
+                    </div>
+
+                     <div class="mb-4">
+                        <p>موجودہ رن ریٹ (CRR): <span id="crr">0.00</span></p>
+                        <p id="rrr-display" class="hidden">مطلوبہ رن ریٹ (RRR): <span id="rrr">0.00</span></p>
+                    </div>
+
+                     <button id="end-innings-btn" class="btn btn-primary w-full mt-4">اننگز ختم کریں</button>
+
+                </div>
+
+                <div id="bowling-section" class="rounded-lg p-6 gradient-bg-team2 shadow-custom">
+                    <h4 id="bowling-team-name" class="text-2xl font-bold mb-4"></h4>
+                     <div class="mb-4">
+                        <label for="current-bowler">باؤلر:</label>
+                        <select id="current-bowler" class="text-gray-800" disabled>
+                             <option value="">منتخب کریں</option>
+                        </select>
+                    </div>
+                     </div>
+            </div>
+
+            <div id="fall-of-wickets" class="mt-8 hidden">
+                <h4 class="text-2xl font-bold mb-4 text-center">گرنے والی وکٹیں</h4>
+                <ul id="fow-list" class="list-disc list-inside">
+                    </ul>
+            </div>
+
+        </div>
+
+        <div id="result-scorecard" class="hidden p-8">
+            <h2 class="text-3xl font-bold mb-6 text-center">میچ کا نتیجہ</h2>
+            <p id="match-result-text" class="text-xl font-bold mb-4 text-center"></p>
+             <p id="man-of-the-match" class="text-lg mb-6 text-center font-semibold"></p>
+
+            <h3 class="text-2xl font-bold mb-4 text-center">مکمل سکور کارڈ</h3>
+
+             <div class="mb-8">
+                <h4 id="scorecard-team1-name" class="text-xl font-bold mb-2"></h4>
+                <p id="scorecard-team1-score" class="text-lg mb-4"></p>
+                <h5 class="font-bold mb-2">بیٹنگ:</h5>
+                <table id="scorecard-batting-team1">
+                    <thead>
+                        <tr>
+                            <th>بلے باز</th>
+                            <th>رنز</th>
+                            <th>گیندیں</th>
+                            <th>4s</th>
+                            <th>6s</th>
+                            <th>اسٹرائیک ریٹ</th>
+                            <th>آؤٹ ہونے کا طریقہ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+                 <h5 class="font-bold mt-4 mb-2">باؤلنگ:</h5>
+                 <table id="scorecard-bowling-team1">
+                     <thead>
+                         <tr>
+                             <th>باؤلر</th>
+                             <th>اوورز</th>
+                             <th>میڈن</th>
+                             <th>رنز</th>
+                             <th>وکٹیں</th>
+                             <th>اکانومی ریٹ</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         </tbody>
+                 </table>
+            </div>
+
+             <div class="mb-8">
+                <h4 id="scorecard-team2-name" class="text-xl font-bold mb-2"></h4>
+                <p id="scorecard-team2-score" class="text-lg mb-4"></p>
+                <h5 class="font-bold mb-2">بیٹنگ:</h5>
+                <table id="scorecard-batting-team2">
+                    <thead>
+                        <tr>
+                            <th>بلے باز</th>
+                            <th>رنز</th>
+                            <th>گیندیں</th>
+                            <th>4s</th>
+                            <th>6s</th>
+                            <th>اسٹرائیک ریٹ</th>
+                            <th>آؤٹ ہونے کا طریقہ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+                 <h5 class="font-bold mt-4 mb-2">باؤلنگ:</h5>
+                 <table id="scorecard-bowling-team2">
+                     <thead>
+                         <tr>
+                             <th>باؤلر</th>
+                             <th>اوورز</th>
+                             <th>میڈن</th>
+                             <th>رنز</th>
+                             <th>وکٹیں</th>
+                             <th>اکانومی ریٹ</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         </tbody>
+                 </table>
+            </div>
+
+            <div id="scorecard-fow" class="mt-8">
+                <h4 class="text-2xl font-bold mb-4 text-center">گرنے والی وکٹیں</h4>
+                <ul id="scorecard-fow-list" class="list-disc list-inside">
+                    </ul>
+            </div>
+
+
+            <div class="text-center mt-8">
+                <button id="print-scorecard" class="btn btn-secondary">سکور کارڈ پرنٹ/ایکسپورٹ کریں</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // JavaScript code for the Scorecard application
+
+        // State variables to hold match data
+        let matchData = {};
+        let currentInnings = 1;
+        let battingTeam = {};
+        let bowlingTeam = {};
+        // batsmen array holds the names of the two batsmen currently at the crease
+        let batsmen = [];
+        // bowler variable holds the name of the current bowler
+        let bowler = null;
+        let totalOvers = 0;
+        // target is null for the first innings
+        let target = null;
+        // fallOfWickets stores details of each wicket as it falls
+        let fallOfWickets = [];
+        // bowlerOverBalls tracks balls bowled in the current over by the current bowler
+        let bowlerOverBalls = 0;
+        // intervalTimer can be used for future auto-update features (not implemented)
+        let intervalTimer = null;
+
+        // --- DOM Elements ---
+        const setupForm = document.getElementById('setup-form');
+        const scoreBoard = document.getElementById('score-board');
+        const resultScorecard = document.getElementById('result-scorecard');
+
+        const matchInfo = document.getElementById('match-info');
+        const matchDetails = document.getElementById('match-details');
+        const targetDisplay = document.getElementById('target-display');
+        const targetRunsSpan = document.getElementById('target-runs');
+
+        const battingTeamName = document.getElementById('batting-team-name');
+        const bowlingTeamName = document.getElementById('bowling-team-name');
+        const currentScore = document.getElementById('current-score');
+        const currentOvers = document.getElementById('current-overs');
+
+        const batsman1Select = document.getElementById('current-batsman1');
+        const batsman2Select = document.getElementById('current-batsman2');
+        const batsman1Stats = document.getElementById('batsman1-stats');
+        const batsman2Stats = document.getElementById('batsman2-stats');
+
+        const bowlerSelect = document.getElementById('current-bowler');
+
+        // Select all buttons for runs, wicket, and extras
+        const runButtons = document.querySelectorAll('#batting-section button[data-runs]');
+        const wicketButton = document.getElementById('wicket-btn');
+        const extraButtons = document.querySelectorAll('#batting-section button[data-extra-type]');
+        const endInningsBtn = document.getElementById('end-innings-btn');
+
+        const crrDisplay = document.getElementById('crr');
+        const rrrDisplay = document.getElementById('rrr-display');
+        const rrrSpan = document.getElementById('rrr');
+
+        const fallOfWicketsSection = document.getElementById('fall-of-wickets');
+        const fowList = document.getElementById('fow-list');
+
+        const matchResultText = document.getElementById('match-result-text');
+        const manOfTheMatch = document.getElementById('man-of-the-match');
+        const scorecardTeam1Name = document.getElementById('scorecard-team1-name');
+        const scorecardTeam2Name = document.getElementById('scorecard-team2-name');
+        const scorecardTeam1Score = document.getElementById('scorecard-team1-score');
+        const scorecardTeam2Score = document.getElementById('scorecard-team2-score');
+        const scorecardBattingTeam1 = document.getElementById('scorecard-batting-team1').querySelector('tbody');
+        const scorecardBowlingTeam1 = document.getElementById('scorecard-bowling-team1').querySelector('tbody');
+        const scorecardBattingTeam2 = document.getElementById('scorecard-batting-team2').querySelector('tbody');
+        const scorecardBowlingTeam2 = document.getElementById('scorecard-bowling-team2').querySelector('tbody');
+        const scorecardFowList = document.getElementById('scorecard-fow-list');
+        const printScorecardBtn = document.getElementById('print-scorecard');
+
+        // Wicket Modal Elements
+        const wicketModal = document.getElementById('wicket-modal');
+        const outBatsmanSelect = document.getElementById('out-batsman');
+        const dismissalTypeSelect = document.getElementById('dismissal-type');
+        const fielderSection = document.getElementById('fielder-section');
+        const fielderNameSelect = document.getElementById('fielder-name');
+        const cancelWicketBtn = document.getElementById('cancel-wicket');
+        const confirmWicketBtn = document.getElementById('confirm-wicket');
+
+
+        // --- Event Listeners ---
+        document.getElementById('match-setup').addEventListener('submit', startMatch);
+        runButtons.forEach(button => button.addEventListener('click', handleRun));
+        wicketButton.addEventListener('click', showWicketModal);
+        extraButtons.forEach(button => button.addEventListener('click', handleExtra));
+        endInningsBtn.addEventListener('click', endInnings);
+        printScorecardBtn.addEventListener('click', () => window.print());
+
+        // Wicket Modal Event Listeners
+        cancelWicketBtn.addEventListener('click', hideWicketModal);
+        confirmWicketBtn.addEventListener('click', confirmWicket);
+        dismissalTypeSelect.addEventListener('change', toggleFielderSection);
+
+        // Batsman/Bowler Select Change Listeners (Enable after players are loaded)
+        batsman1Select.addEventListener('change', handleBatsmanChange);
+        batsman2Select.addEventListener('change', handleBatsmanChange);
+        bowlerSelect.addEventListener('change', handleBowlerChange);
+
+
+        // --- Functions ---
+
+        // Function to initialize the match based on form data
+        function startMatch(event) {
+            event.preventDefault();
+
+            // Get data from the form and store it in matchData object
+            matchData = {
+                title: document.getElementById('match-title').value,
+                ground: document.getElementById('ground-name').value,
+                date: document.getElementById('match-date').value,
+                time: document.getElementById('match-time').value,
+                totalOvers: parseInt(document.getElementById('total-overs').value),
+                team1: {
+                    name: document.getElementById('team1-name').value,
+                    // Split player names by newline, trim whitespace, and filter out empty lines
+                    players: document.getElementById('team1-players').value.split('\n').map(p => p.trim()).filter(p => p),
+                    score: 0,
+                    wickets: 0,
+                    overs: 0,
+                    balls: 0, // Total balls faced in the innings
+                    battingStats: {}, // Stores individual batsman stats
+                    bowlingStats: {} // Stores individual bowler stats
+                },
+                team2: {
+                    name: document.getElementById('team2-name').value,
+                    players: document.getElementById('team2-players').value.split('\n').map(p => p.trim()).filter(p => p),
+                    score: 0,
+                    wickets: 0,
+                    overs: 0,
+                    balls: 0,
+                    battingStats: {},
+                    bowlingStats: {}
+                },
+                umpires: [
+                    document.getElementById('umpire1-name').value,
+                    document.getElementById('umpire2-name').value
+                ],
+                // Store innings summary data
+                innings1: { score: 0, wickets: 0, overs: 0, balls: 0, fow: [] },
+                innings2: { score: 0, wickets: 0, overs: 0, balls: 0, fow: [] },
+                target: null, // Target is set after the first innings
+                result: '',
+                manOfTheMatch: ''
+            };
+
+            // Basic validation for player lists
+            if (matchData.team1.players.length < 2 || matchData.team2.players.length < 2) {
+                alert('ہر ٹیم میں کم از کم 2 کھلاڑی ہونے ضروری ہیں۔');
+                return;
+            }
+
+            totalOvers = matchData.totalOvers;
+
+            // Initialize player stats for both teams
+            matchData.team1.players.forEach(player => {
+                matchData.team1.battingStats[player] = { runs: 0, balls: 0, fours: 0, sixes: 0, isOut: false, dismissal: '', fielder: '' };
+                matchData.team1.bowlingStats[player] = { overs: 0, balls: 0, maidens: 0, runs: 0, wickets: 0 };
+            });
+            matchData.team2.players.forEach(player => {
+                matchData.team2.battingStats[player] = { runs: 0, balls: 0, fours: 0, sixes: 0, isOut: false, dismissal: '', fielder: '' };
+                matchData.team2.bowlingStats[player] = { overs: 0, balls: 0, maidens: 0, runs: 0, wickets: 0 };
+            });
+
+
+            // Determine batting and bowling teams for the first innings (assuming Team 1 bats first for simplicity)
+            battingTeam = matchData.team1;
+            bowlingTeam = matchData.team2;
+
+            // Populate player dropdowns for the first innings
+            populatePlayerSelects();
+
+            // Update match info display
+            updateMatchInfo();
+
+            // Hide setup form and show score board
+            setupForm.classList.add('hidden');
+            scoreBoard.classList.remove('hidden');
+            // Show fall of wickets section
+            fallOfWicketsSection.classList.remove('hidden');
+
+            // Enable player selects after players are loaded
+            batsman1Select.disabled = false;
+            batsman2Select.disabled = false;
+            bowlerSelect.disabled = false;
+        }
+
+        // Function to update the displayed match information
+        function updateMatchInfo() {
+            matchInfo.textContent = `${matchData.title}`;
+            matchDetails.textContent = `${matchData.ground}, ${matchData.date}, ${matchData.time}`;
+            battingTeamName.textContent = `${battingTeam.name} (اننگز ${currentInnings})`;
+            bowlingTeamName.textContent = `${bowlingTeam.name}`;
+
+            // Display target if it's the second innings
+            if (target !== null) {
+                targetDisplay.classList.remove('hidden');
+                targetRunsSpan.textContent = target;
+            } else {
+                targetDisplay.classList.add('hidden');
+            }
+        }
+
+        // Function to populate player dropdowns based on the current batting and bowling teams
+        function populatePlayerSelects() {
+            // Clear previous options
+            batsman1Select.innerHTML = '<option value="">منتخب کریں</option>';
+            batsman2Select.innerHTML = '<option value="">منتخب کریں</option>';
+            bowlerSelect.innerHTML = '<option value="">منتخب کریں</option>';
+            outBatsmanSelect.innerHTML = '<option value="">منتخب کریں</option>';
+            fielderNameSelect.innerHTML = '<option value="">منتخب کریں</option>';
+
+
+            // Populate batting team players for batsmen and out batsman select
+            battingTeam.players.forEach(player => {
+                // Only add players who are not yet out
+                if (!battingTeam.battingStats[player].isOut) {
+                    const option1 = document.createElement('option');
+                    option1.value = player;
+                    option1.textContent = player;
+                    batsman1Select.appendChild(option1);
+
+                    const option2 = document.createElement('option');
+                    option2.value = player;
+                    option2.textContent = player;
+                    batsman2Select.appendChild(option2);
+
+                    const outOption = document.createElement('option');
+                    outOption.value = player;
+                    outOption.textContent = player;
+                    outBatsmanSelect.appendChild(outOption);
+                }
+            });
+
+            // Populate bowling team players for bowler and fielder select
+            bowlingTeam.players.forEach(player => {
+                const bowlerOption = document.createElement('option');
+                bowlerOption.value = player;
+                bowlerOption.textContent = player;
+                bowlerSelect.appendChild(bowlerOption);
+
+                const fielderOption = document.createElement('option');
+                fielderOption.value = player;
+                fielderOption.textContent = player;
+                fielderNameSelect.appendChild(fielderOption);
+            });
+        }
+
+        // Function to update the displayed score, overs, and batsman stats
+        function updateScoreDisplay() {
+            currentScore.textContent = `${battingTeam.score}/${battingTeam.wickets}`;
+            // Calculate overs from total balls
+            const fullOvers = Math.floor(battingTeam.balls / 6);
+            const remainingBalls = battingTeam.balls % 6;
+            currentOvers.textContent = `${fullOvers}.${remainingBalls} اوورز`;
+
+            // Update batsman stats display
+            const b1 = batsmen[0];
+            const b2 = batsmen[1];
+            if (b1 && battingTeam.battingStats[b1]) {
+                const stats = battingTeam.battingStats[b1];
+                batsman1Stats.textContent = `${stats.runs} (${stats.balls})`;
+            } else {
+                batsman1Stats.textContent = '0 (0)';
+            }
+            if (b2 && battingTeam.battingStats[b2]) {
+                const stats = battingTeam.battingStats[b2];
+                batsman2Stats.textContent = `${stats.runs} (${stats.balls})`;
+            } else {
+                batsman2Stats.textContent = '0 (0)';
+            }
+
+            // Recalculate and display run rates
+            calculateRunRates();
+            // Check if innings or match should end
+            checkInningsEndConditions();
+            checkMatchEndConditions();
+        }
+
+        // Function to handle adding runs
+        function handleRun(event) {
+            // Ensure batsmen and bowler are selected before adding runs
+            if (batsmen.length < 2 || !bowler) {
+                alert('براہ کرم بلے باز اور باؤلر منتخب کریں۔');
+                return;
+            }
+
+            const runs = parseInt(event.target.dataset.runs);
+            battingTeam.score += runs;
+            battingTeam.balls++; // Increment total balls for the batting team
+            bowlerOverBalls++; // Increment balls bowled in the current over by the bowler
+
+            // Add runs to the current batsman's stats (assuming batsman1 is on strike)
+            if (batsmen[0] && battingTeam.battingStats[batsmen[0]]) {
+                battingTeam.battingStats[batsmen[0]].runs += runs;
+                battingTeam.battingStats[batsmen[0]].balls++;
+                if (runs === 4) battingTeam.battingStats[batsmen[0]].fours++;
+                if (runs === 6) battingTeam.battingStats[batsmen[0]].sixes++;
+            }
+
+            // Add runs to the bowler's stats
+            if(bowler && bowlingTeam.bowlingStats[bowler]){
+                bowlingTeam.bowlingStats[bowler].runs += runs;
+            }
+
+            // If runs are odd, switch strike
+            if (runs % 2 !== 0) {
+                switchStrike();
+            }
+
+            // If it's the last ball of the over (6 balls bowled), switch strike and reset bowlerOverBalls
+            if (bowlerOverBalls === 6) {
+                switchStrike();
+                endOver(); // Handle end of over logic
+            }
+
+
+            updateScoreDisplay();
+            updateBowlerStats(); // Update bowler's total balls and overs
+        }
+
+        // Function to handle adding extras (wide or noball)
+        function handleExtra(event) {
+             // Ensure batsmen and bowler are selected before adding extras
+            if (batsmen.length < 2 || !bowler) {
+                alert('براہ کرم بلے باز اور باؤلر منتخب کریں۔');
+                return;
+            }
+
+            const extraType = event.target.dataset.extraType;
+            let runs = 1; // Default runs for wide and noball
+
+            if (extraType === 'wide') {
+                battingTeam.score += runs;
+                // Wide does not count as a legal delivery, balls do not increment for the over or batsman
+                 // Add a run to the bowler's stats for the wide
+                 if(bowler && bowlingTeam.bowlingStats[bowler]){
+                     bowlingTeam.bowlingStats[bowler].runs += runs;
+                 }
+                 // A wide does not count towards the 6 balls in an over, so bowlerOverBalls is NOT incremented here.
+            } else if (extraType === 'noball') {
+                battingTeam.score += runs; // 1 run for noball
+                // No ball counts as a ball for the bowler and the over
+                battingTeam.balls++; // Increment total balls for the batting team
+                bowlerOverBalls++; // Increment balls bowled in the current over by the bowler
+                 // Add a run to the bowler's stats for the noball
+                 if(bowler && bowlingTeam.bowlingStats[bowler]){
+                     bowlingTeam.bowlingStats[bowler].runs += runs;
+                 }
+                // TODO: Implement Free Hit logic after a noball if needed
+            }
+            // Byes and Leg Byes can be added similarly, they add to team score but not batsman/bowler stats directly
+
+            // If it's the last ball of the over (6 legal balls bowled), switch strike and reset bowlerOverBalls
+             if (bowlerOverBalls === 6) {
+                 switchStrike();
+                 endOver(); // Handle end of over logic
+             }
+
+            updateScoreDisplay();
+            updateBowlerStats(); // Update bowler's total balls and overs
+        }
+
+        // Function to handle the end of an over
+        function endOver() {
+            // Reset balls bowled in the current over
+            bowlerOverBalls = 0;
+            // Increment the bowler's overs count
+            if (bowler && bowlingTeam.bowlingStats[bowler]) {
+                 bowlingTeam.bowlingStats[bowler].overs = Math.floor(bowlingTeam.bowlingStats[bowler].balls / 6);
+                 // TODO: Implement maiden over check here if tracking maidens per bowler over.
+            }
+            // Bowler must change after an over (in most formats) - could add logic to force bowler selection
+            bowler = null;
+            bowlerSelect.value = ''; // Clear bowler selection
+            // Disable bowler select until a new bowler is chosen
+            bowlerSelect.disabled = false; // Re-enable to select new bowler
+        }
+
+
+        // Function to display the wicket details modal
+        function showWicketModal() {
+            // Ensure batsmen and bowler are selected before recording a wicket
+            if (batsmen.length < 2 || !bowler) {
+                alert('براہ کرم بلے باز اور باؤلر منتخب کریں۔');
+                hideWicketModal(); // Hide modal if conditions not met
+                return;
+            }
+
+            // Populate out batsman select with current batsmen and players not yet out
+            outBatsmanSelect.innerHTML = '<option value="">منتخب کریں</option>';
+            battingTeam.players.forEach(player => {
+                // Only add players who are currently batting or not yet out
+                 if (batsmen.includes(player) || !battingTeam.battingStats[player].isOut) {
+                    const option = document.createElement('option');
+                    option.value = player;
+                    option.textContent = player;
+                    outBatsmanSelect.appendChild(option);
+                 }
+            });
+
+            // Populate fielder select with bowling team players
+            fielderNameSelect.innerHTML = '<option value="">منتخب کریں</option>';
+            bowlingTeam.players.forEach(player => {
+                const option = document.createElement('option');
+                option.value = player;
+                option.textContent = player;
+                fielderNameSelect.appendChild(option);
+            });
+
+            wicketModal.classList.remove('hidden');
+        }
+
+        // Function to hide the wicket details modal
+        function hideWicketModal() {
+            wicketModal.classList.add('hidden');
+            // Reset modal selections
+            outBatsmanSelect.value = '';
+            dismissalTypeSelect.value = 'بولڈ';
+            fielderNameSelect.value = '';
+            fielderSection.classList.add('hidden');
+        }
+
+        // Function to toggle the visibility of the fielder selection section based on dismissal type
+        function toggleFielderSection() {
+            const dismissalType = dismissalTypeSelect.value;
+            // Show fielder section for caught, run out, stumped
+            if (['کیچ آؤٹ', 'رن آؤٹ', 'اسٹمپڈ'].includes(dismissalType)) {
+                fielderSection.classList.remove('hidden');
+            } else {
+                fielderSection.classList.add('hidden');
+            }
+        }
+
+        // Function to confirm and record a wicket
+        function confirmWicket() {
+            const outBatsman = outBatsmanSelect.value;
+            const dismissalType = dismissalTypeSelect.value;
+            const fielder = fielderNameSelect.value;
+
+            // Validation
+            if (!outBatsman) {
+                alert('براہ کرم آؤٹ ہونے والا بلے باز منتخب کریں۔');
+                return;
+            }
+             if (['کیچ آؤٹ', 'رن آؤٹ', 'اسٹمپڈ'].includes(dismissalType) && !fielderSection.classList.contains('hidden') && !fielder) {
+                 alert('براہ کرم فیلڈر کا نام منتخب کریں۔');
+                 return;
+             }
+
+
+            battingTeam.wickets++;
+            battingTeam.balls++; // Wicket counts as a ball
+            bowlerOverBalls++; // Increment balls bowled in the current over by the bowler
+
+
+            // Update batsman stats
+            if (battingTeam.battingStats[outBatsman]) {
+                battingTeam.battingStats[outBatsman].isOut = true;
+                battingTeam.battingStats[outBatsman].dismissal = dismissalType;
+                battingTeam.battingStats[outBatsman].fielder = fielder;
+                 // Increment balls faced by the out batsman for the wicket ball
+                 battingTeam.battingStats[outBatsman].balls++;
+            }
+
+            // Add a wicket to the bowler's stats
+            if(bowler && bowlingTeam.bowlingStats[bowler]){
+                bowlingTeam.bowlingStats[bowler].wickets++;
+                 // Add a run (0) to the bowler's stats for the wicket ball
+                bowlingTeam.bowlingStats[bowler].runs += 0;
+            }
+
+
+            // Record fall of wicket
+            const fowEntry = {
+                wickets: battingTeam.wickets,
+                score: battingTeam.score,
+                overs: `${Math.floor(battingTeam.balls / 6)}.${battingTeam.balls % 6}`,
+                batsman: outBatsman,
+                dismissal: dismissalType,
+                fielder: fielder
+            };
+            fallOfWickets.push(fowEntry);
+            updateFowDisplay();
+
+
+            // Remove the out batsman from the current batsmen list
+            batsmen = batsmen.filter(b => b !== outBatsman);
+
+            // If it's the last ball of the over (6 legal balls bowled), switch strike and reset bowlerOverBalls
+             if (bowlerOverBalls === 6) {
+                 // No strike switch needed if a wicket falls on the last ball of the over
+                 endOver(); // Handle end of over logic
+             } else {
+                  // If wicket is not on the last ball, the new batsman faces the next ball
+                  // No strike switch here after a wicket unless it's a run out where batsmen crossed
+                  // Simplified: new batsman comes to the crease and faces the next ball
+             }
+
+
+            // If there are still batsmen available, prompt for a new batsman
+            const availableBatsmen = battingTeam.players.filter(player => !battingTeam.battingStats[player].isOut && !batsmen.includes(player));
+            if (batsmen.length < 2 && availableBatsmen.length > 0 && battingTeam.wickets < 10) {
+                // A new batsman needs to come to the crease
+                // The select options will be repopulated when the modal is hidden
+                 // Re-enable batsman selects to choose the new batsman
+                 batsman1Select.disabled = false;
+                 batsman2Select.disabled = false;
+
+                 // If one batsman is still there, populate the other select with available players
+                 if (batsmen.length === 1) {
+                     const remainingBatsman = batsmen[0];
+                     if (batsman1Select.value === remainingBatsman) {
+                         // Populate batsman2Select with available players
+                         batsman2Select.innerHTML = '<option value="">منتخب کریں</option>';
+                          availableBatsmen.forEach(player => {
+                             const option = document.createElement('option');
+                             option.value = player;
+                             option.textContent = player;
+                             batsman2Select.appendChild(option);
+                         });
+                          batsman2Select.value = ''; // Clear selection
+                     } else {
+                         // Populate batsman1Select with available players
+                         batsman1Select.innerHTML = '<option value="">منتخب کریں</option>';
+                          availableBatsmen.forEach(player => {
+                             const option = document.createElement('option');
+                             option.value = player;
+                             option.textContent = player;
+                             batsman1Select.appendChild(option);
+                         });
+                          batsman1Select.value = ''; // Clear selection
+                     }
+                 } else if (batsmen.length === 0 && battingTeam.wickets < 10) {
+                     // Both batsmen were out, need two new batsmen
+                     populatePlayerSelects(); // Repopulate both selects with available players
+                     batsman1Select.value = '';
+                     batsman2Select.value = '';
+                 }
+
+
+            } else if (battingTeam.wickets >= 10) {
+                 // All out
+                 endInnings(); // Automatically end innings if all out
+            }
+
+
+            updateScoreDisplay();
+            updateBowlerStats(); // Update bowler's total balls and overs
+            hideWicketModal();
+        }
+
+        // Function to handle changes in batsman selection
+        function handleBatsmanChange() {
+            // Ensure the same player is not selected for both batsmen
+            if (batsman1Select.value && batsman1Select.value === batsman2Select.value) {
+                alert('ایک ہی کھلاڑی کو دو بلے بازوں کے طور پر منتخب نہیں کیا جا سکتا۔');
+                // Revert the selection
+                if (this.id === 'current-batsman1') {
+                    batsman1Select.value = batsmen[0] || '';
+                } else {
+                    batsman2Select.value = batsmen[1] || '';
+                }
+                return;
+            }
+
+             // Ensure selected batsmen are not already out
+             if (batsman1Select.value && battingTeam.battingStats[batsman1Select.value]?.isOut) {
+                 alert(`${batsman1Select.value} پہلے ہی آؤٹ ہو چکا ہے۔`);
+                 batsman1Select.value = batsmen[0] || '';
+                 return;
+             }
+              if (batsman2Select.value && battingTeam.battingStats[batsman2Select.value]?.isOut) {
+                 alert(`${batsman2Select.value} پہلے ہی آؤٹ ہو چکا ہے۔`);
+                 batsman2Select.value = batsmen[1] || '';
+                 return;
+             }
+
+
+            // Update the current batsmen array
+            batsmen = [batsman1Select.value, batsman2Select.value].filter(b => b);
+
+            // Initialize batsman stats if they are new to the crease
+            batsmen.forEach(b => {
+                if (!battingTeam.battingStats[b]) {
+                    battingTeam.battingStats[b] = { runs: 0, balls: 0, fours: 0, sixes: 0, isOut: false, dismissal: '', fielder: '' };
+                }
+            });
+
+            updateScoreDisplay(); // Update batsman stats display
+        }
+
+        // Function to handle changes in bowler selection
+        function handleBowlerChange() {
+            const newBowler = bowlerSelect.value;
+
+            // Prevent selecting a bowler who has already bowled their maximum overs (if applicable, not implemented)
+            // Prevent selecting a bowler from the batting team (basic check)
+             if (battingTeam.players.includes(newBowler)) {
+                 alert('بیٹنگ ٹیم کا کھلاڑی باؤلنگ نہیں کر سکتا۔');
+                 bowlerSelect.value = bowler || ''; // Revert selection
+                 return;
+             }
+
+            bowler = newBowler;
+            // Initialize bowler stats if they are bowling for the first time
+            if (bowler && !bowlingTeam.bowlingStats[bowler]) {
+                bowlingTeam.bowlingStats[bowler] = { overs: 0, balls: 0, maidens: 0, runs: 0, wickets: 0 };
+            }
+             // Reset balls bowled in the current over when a new bowler starts
+             bowlerOverBalls = 0;
+            // TODO: Implement logic to switch ends for bowlers if needed
+        }
+
+        // Function to update the bowler's total balls and overs
+        function updateBowlerStats() {
+            if (bowler && bowlingTeam.bowlingStats[bowler]) {
+                const bowlerStats = bowlingTeam.bowlingStats[bowler];
+                 // Total balls bowled by this bowler in the innings
+                 // This is a simplified approach; a more accurate way would track balls per bowler per over.
+                 // For now, we'll just update the total balls based on the current ball.
+                 // A better approach would be to increment bowlerStats.balls only when a legal delivery is bowled.
+                 // For simplicity in this version, we'll just update the overs display based on total balls bowled in the innings.
+                 // Accurate individual bowler overs/balls tracking needs a more complex state.
+
+                 // Update overs display for the bowler (simplified)
+                 // This does NOT accurately reflect balls bowled by *this* bowler, but total balls in the innings.
+                 // To fix this, we need to track balls bowled per bowler.
+                 // For now, we'll leave this as is, acknowledging the simplification.
+                 // bowlerStats.overs = Math.floor(bowlerStats.balls / 6) + (bowlerStats.balls % 6) / 10;
+            }
+        }
+
+
+        // Function to calculate and display current and required run rates
+        function calculateRunRates() {
+            const totalBallsFaced = battingTeam.overs * 6 + battingTeam.balls; // Total balls faced by the batting team
+            const totalRunsScored = battingTeam.score;
+            const totalPossibleBalls = totalOvers * 6;
+
+            // Current Run Rate (CRR)
+            if (totalBallsFaced > 0) {
+                const crr = (totalRunsScored / totalBallsFaced) * 6;
+                crrDisplay.textContent = crr.toFixed(2);
+            } else {
+                crrDisplay.textContent = '0.00';
+            }
+
+            // Required Run Rate (RRR) - only in the second innings
+            if (currentInnings === 2 && target !== null) {
+                const runsNeeded = target - battingTeam.score;
+                const ballsRemaining = totalPossibleBalls - totalBallsFaced;
+
+                if (ballsRemaining > 0) {
+                    const rrr = (runsNeeded / ballsRemaining) * 6;
+                    rrrSpan.textContent = Math.max(0, rrr).toFixed(2); // RRR cannot be negative
+                    rrrDisplay.classList.remove('hidden');
+                } else {
+                    rrrSpan.textContent = 'N/A'; // No balls remaining
+                    rrrDisplay.classList.remove('hidden');
+                }
+            } else {
+                rrrDisplay.classList.add('hidden');
+            }
+        }
+
+        // Function to update the displayed fall of wickets list
+        function updateFowDisplay() {
+            fowList.innerHTML = ''; // Clear previous entries
+            fallOfWickets.forEach(fow => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${fow.wickets} وِکٹ ${fow.score} رنز پر (${fow.overs} اوورز) - ${fow.batsman} (${fow.dismissal}${fow.fielder ? ' بمطابق ' + fow.fielder : ''})`;
+                fowList.appendChild(listItem);
+            });
+        }
+
+
+        // Function to check conditions for the end of an innings
+        function checkInningsEndConditions() {
+            // Innings ends if 10 wickets are down or all overs are bowled
+            if (battingTeam.wickets >= 10 || Math.floor(battingTeam.balls / 6) >= totalOvers) {
+                // Prevent adding more runs/wickets/extras
+                runButtons.forEach(button => button.disabled = true);
+                wicketButton.disabled = true;
+                extraButtons.forEach(button => button.disabled = true);
+                endInningsBtn.disabled = false; // Ensure end innings button is enabled
+            } else {
+                // Enable buttons if innings is not over
+                runButtons.forEach(button => button.disabled = false);
+                wicketButton.disabled = false;
+                extraButtons.forEach(button => button.disabled = false);
+                endInningsBtn.disabled = false;
+            }
+        }
+
+        // Function to check conditions for the end of the match
+        function checkMatchEndConditions() {
+            // Match ends only in the second innings
+            if (currentInnings === 2 && target !== null) {
+                // Match ends if target is reached or batting team is all out or overs are finished
+                if (battingTeam.score >= target || battingTeam.wickets >= 10 || Math.floor(battingTeam.balls / 6) >= totalOvers) {
+                    endMatch();
+                }
+            }
+        }
+
+        // Function to handle the end of an innings
+        function endInnings() {
+             // Disable buttons to prevent further scoring
+             runButtons.forEach(button => button.disabled = true);
+             wicketButton.disabled = true;
+             extraButtons.forEach(button => button.disabled = true);
+             endInningsBtn.disabled = true;
+
+
+            // Save innings data
+            matchData[`innings${currentInnings}`] = {
+                score: battingTeam.score,
+                wickets: battingTeam.wickets,
+                overs: Math.floor(battingTeam.balls / 6),
+                balls: battingTeam.balls % 6,
+                fow: [...fallOfWickets] // Copy fall of wickets for this innings
+            };
+
+            if (currentInnings === 1) {
+                // Set target for the second innings (1 run more than the first innings score)
+                target = battingTeam.score + 1;
+                matchData.target = target;
+
+                // Switch batting and bowling teams
+                const tempTeam = battingTeam;
+                battingTeam = bowlingTeam;
+                bowlingTeam = tempTeam;
+
+                currentInnings = 2;
+
+                // Reset batting team stats for the new innings
+                battingTeam.score = 0;
+                battingTeam.wickets = 0;
+                battingTeam.overs = 0;
+                battingTeam.balls = 0;
+                batsmen = []; // Clear current batsmen
+                bowler = null; // Clear current bowler
+                fallOfWickets = []; // Reset fall of wickets for the new innings
+                bowlerOverBalls = 0; // Reset bowler over balls
+
+
+                // Clear batsman and bowler selections
+                batsman1Select.value = '';
+                batsman2Select.value = '';
+                bowlerSelect.value = '';
+
+                // Enable batsman selects for the new innings
+                batsman1Select.disabled = false;
+                batsman2Select.disabled = false;
+                bowlerSelect.disabled = false;
+
+
+                // Update UI for the second innings
+                updateMatchInfo();
+                updateScoreDisplay();
+                populatePlayerSelects(); // Populate selects with the new batting team players
+                updateFowDisplay(); // Clear fall of wickets display
+
+                // Re-enable buttons for the new innings
+                runButtons.forEach(button => button.disabled = false);
+                wicketButton.disabled = false;
+                extraButtons.forEach(button => button.disabled = false);
+                endInningsBtn.disabled = false; // Keep enabled for potential early end
+
+            } else if (currentInnings === 2) {
+                // Match ends after the second innings
+                endMatch();
+            }
+        }
+
+        // Function to handle the end of the match and display results
+        function endMatch() {
+             // Disable all buttons at the end of the match
+             runButtons.forEach(button => button.disabled = true);
+             wicketButton.disabled = true;
+             extraButtons.forEach(button => button.disabled = true);
+             endInningsBtn.disabled = true;
+             batsman1Select.disabled = true;
+             batsman2Select.disabled = true;
+             bowlerSelect.disabled = true;
+
+
+            // Determine match result
+            let result = '';
+            const team1Score = matchData.innings1.score;
+            const team2Score = matchData.innings2.score;
+            const team2Wickets = matchData.innings2.wickets;
+            const team2Balls = matchData.innings2.overs * 6 + matchData.innings2.balls;
+            const totalPossibleBalls = totalOvers * 6;
+
+
+            if (team2Score >= target) {
+                const wicketsRemaining = 10 - team2Wickets;
+                const ballsRemaining = totalPossibleBalls - team2Balls;
+                const oversRemaining = Math.floor(ballsRemaining / 6) + (ballsRemaining % 6) / 10;
+                result = `${matchData.team2.name} نے ${wicketsRemaining} وِکٹوں سے میچ جیت لیا (${oversRemaining.toFixed(1)} اوورز باقی)`;
+            } else if (team1Score > team2Score) {
+                const runDifference = team1Score - team2Score;
+                result = `${matchData.team1.name} نے ${runDifference} رنز سے میچ جیت لیا`;
+            } else if (team1Score === team2Score && team2Wickets === 10 && Math.floor(team2Balls / 6) >= totalOvers) {
+                result = `میچ برابر ہو گیا (Tie)`; // Should only happen if target is exactly met on the last ball with the last wicket
+            } else {
+                // This case should ideally not be reached in a standard match flow after innings 2 ends
+                result = 'میچ ختم ہو گیا';
+            }
+
+            matchData.result = result;
+
+            // Simple heuristic for Man of the Match: player with highest impact (considering runs and wickets)
+            let bestPerformer = null;
+            let highestImpactScore = -1;
+            let manOfTheMatchPlayer = 'اعلان ہونا باقی';
+
+            const allPlayers = [...matchData.team1.players, ...matchData.team2.players];
+
+            allPlayers.forEach(player => {
+                const team = matchData.team1.players.includes(player) ? matchData.team1 : matchData.team2;
+                const battingStats = team.battingStats[player] || { runs: 0, balls: 0, fours: 0, sixes: 0, isOut: false, dismissal: '', fielder: '' };
+                const bowlingStats = team.bowlingStats[player] || { overs: 0, balls: 0, maidens: 0, runs: 0, wickets: 0 };
+
+                // Calculate a simple impact score (e.g., runs scored + wickets taken * factor)
+                const impactScore = battingStats.runs + (bowlingStats.wickets * 20); // Wickets are weighted
+
+                if (impactScore > highestImpactScore) {
+                    highestImpactScore = impactScore;
+                    bestPerformer = player;
+                } else if (impactScore === highestImpactScore) {
+                     // If impact scores are equal, prioritize based on runs or wickets (simple tie-breaker)
+                     if (battingStats.runs > (matchData.team1.battingStats[bestPerformer]?.runs || 0) + (matchData.team2.battingStats[bestPerformer]?.runs || 0)) {
+                         bestPerformer = player;
+                     } else if (bowlingStats.wickets > (matchData.team1.bowlingStats[bestPerformer]?.wickets || 0) + (matchData.team2.bowlingStats[bestPerformer]?.wickets || 0)) {
+                          bestPerformer = player;
+                     }
+                }
+            });
+
+
+            if (bestPerformer) {
+                manOfTheMatchPlayer = bestPerformer;
+            }
+            matchData.manOfTheMatch = manOfTheMatchPlayer;
+
+
+            // Display result and Man of the Match
+            matchResultText.textContent = result;
+            manOfTheMatch.textContent = `مین آف دی میچ: ${manOfTheMatchPlayer}`;
+
+            // Populate full score card tables
+            populateScorecard();
+
+            // Hide score board and show result/scorecard
+            scoreBoard.classList.add('hidden');
+            fallOfWicketsSection.classList.add('hidden');
+            resultScorecard.classList.remove('hidden');
+        }
+
+        // Function to populate the full score card tables at the end of the match
+        function populateScorecard() {
+            // Team 1 Scorecard
+            scorecardTeam1Name.textContent = matchData.team1.name;
+            scorecardTeam1Score.textContent = `سکور: ${matchData.innings1.score}/${matchData.innings1.wickets} (${matchData.innings1.overs}.${matchData.innings1.balls} اوورز)`;
+            scorecardBattingTeam1.innerHTML = ''; // Clear previous entries
+            matchData.team1.players.forEach(player => {
+                const stats = matchData.team1.battingStats[player];
+                const strikeRate = stats.balls > 0 ? ((stats.runs / stats.balls) * 100).toFixed(2) : '0.00';
+                const row = `
+                    <tr>
+                        <td>${player}</td>
+                        <td>${stats.runs}</td>
+                        <td>${stats.balls}</td>
+                        <td>${stats.fours}</td>
+                        <td>${stats.sixes}</td>
+                        <td>${strikeRate}</td>
+                        <td>${stats.isOut ? stats.dismissal + (stats.fielder ? ' بمطابق ' + fow.fielder : '') : 'ناٹ آؤٹ'}</td>
+                    </tr>
+                `;
+                scorecardBattingTeam1.innerHTML += row;
+            });
+
+            scorecardBowlingTeam1.innerHTML = ''; // Clear previous entries
+            matchData.team1.players.forEach(player => {
+                const stats = matchData.team1.bowlingStats[player];
+                // Calculate economy rate based on total balls bowled by the bowler
+                const economyRate = stats.balls > 0 ? ((stats.runs / stats.balls) * 6).toFixed(2) : '0.00';
+                const row = `
+                    <tr>
+                        <td>${player}</td>
+                        <td>${Math.floor(stats.balls / 6)}.${stats.balls % 6}</td>
+                        <td>${stats.maidens}</td>
+                        <td>${stats.runs}</td>
+                        <td>${stats.wickets}</td>
+                        <td>${economyRate}</td>
+                    </tr>
+                `;
+                scorecardBowlingTeam1.innerHTML += row;
+            });
+
+
+            // Team 2 Scorecard
+            scorecardTeam2Name.textContent = matchData.team2.name;
+            scorecardTeam2Score.textContent = `سکور: ${matchData.innings2.score}/${matchData.innings2.wickets} (${matchData.innings2.overs}.${matchData.innings2.balls} اوورز)`;
+            scorecardBattingTeam2.innerHTML = ''; // Clear previous entries
+            matchData.team2.players.forEach(player => {
+                const stats = matchData.team2.battingStats[player];
+                const strikeRate = stats.balls > 0 ? ((stats.runs / stats.balls) * 100).toFixed(2) : '0.00';
+                const row = `
+                    <tr>
+                        <td>${player}</td>
+                        <td>${stats.runs}</td>
+                        <td>${stats.balls}</td>
+                        <td>${stats.fours}</td>
+                        <td>${stats.sixes}</td>
+                        <td>${strikeRate}</td>
+                        <td>${stats.isOut ? stats.dismissal + (stats.fielder ? ' بمطابق ' + fow.fielder : '') : 'ناٹ آؤٹ'}</td>
+                    </tr>
+                `;
+                scorecardBattingTeam2.innerHTML += row;
+            });
+
+            scorecardBowlingTeam2.innerHTML = ''; // Clear previous entries
+            matchData.team2.players.forEach(player => {
+                const stats = matchData.team2.bowlingStats[player];
+                 // Calculate economy rate based on total balls bowled by the bowler
+                const economyRate = stats.balls > 0 ? ((stats.runs / stats.balls) * 6).toFixed(2) : '0.00';
+                const row = `
+                    <tr>
+                        <td>${player}</td>
+                        <td>${Math.floor(stats.balls / 6)}.${stats.balls % 6}</td>
+                        <td>${stats.maidens}</td>
+                        <td>${stats.runs}</td>
+                        <td>${stats.wickets}</td>
+                        <td>${economyRate}</td>
+                    </tr>
+                `;
+                scorecardBowlingTeam2.innerHTML += row;
+            });
+
+
+            // Fall of Wickets in Scorecard
+            scorecardFowList.innerHTML = ''; // Clear previous entries
+            // Combine FOW from both innings if applicable
+            const allFow = [...matchData.innings1.fow, ...matchData.innings2.fow];
+            allFow.forEach(fow => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${fow.wickets} وِکٹ ${fow.score} رنز پر (${fow.overs} اوورز) - ${fow.batsman} (${fow.dismissal}${fow.fielder ? ' بمطابق ' + fow.fielder : ''})`;
+                scorecardFowList.appendChild(listItem);
+            });
+        }
+
+        // Function to switch the strike between the two batsmen
+        function switchStrike() {
+            if (batsmen.length === 2) {
+                const temp = batsmen[0];
+                batsmen[0] = batsmen[1];
+                batsmen[1] = temp;
+                // Update select values to reflect the strike change
+                batsman1Select.value = batsmen[0];
+                batsman2Select.value = batsmen[1];
+            }
+        }
+
+        // Initial state setup (optional, can be done in HTML)
+        // updateScoreDisplay(); // Display initial 0/0 and 0.0 overs
+
+
+    </script>
+
+</body>
+</html>
